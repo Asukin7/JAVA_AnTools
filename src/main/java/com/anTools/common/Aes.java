@@ -17,8 +17,6 @@ import java.security.Security;
 public class Aes {
 
     public static String KEY_ALGORITHM = "AES";
-    //数据填充方式
-    String algorithmStr = "AES/CBC/PKCS7Padding";
     //避免重复new生成多个BouncyCastleProvider对象，因为GC回收不了，会造成内存溢出
     //只在第一次调用decrypt()方法时才new 对象
     public static boolean initialized = false;
@@ -32,6 +30,7 @@ public class Aes {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             SecretKeySpec secretKeySpec = new SecretKeySpec(encryptKey, "AES");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, new IvParameterSpec(ivByte));
+
             byte[] encrypted = cipher.doFinal(originalContent);
             return encrypted;
         } catch (Exception e) {
@@ -41,24 +40,17 @@ public class Aes {
 
     /**
      * AES解密
-     * 填充模式AES/CBC/PKCS7Padding
-     * 解密模式128
      */
-    public String decrypt(String sessionKey, String encryptedData, String iv) {
+    public String decrypt(String decryptKey, String encryptedData, String iv) {
         initialize();
-        //转换为byte类型以解密
-        byte[] aesKey= Base64.decode(sessionKey);
-        byte[] content= Base64.decode(encryptedData);
-        byte[] ivBytes= Base64.decode(iv);
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-            Key secretKeySpec = new SecretKeySpec(aesKey, "AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, generateIv(ivBytes));//初始化
-            byte[] result = cipher.doFinal(content);
+            Key secretKeySpec = new SecretKeySpec(Base64.decode(decryptKey), "AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, generateIv(Base64.decode(iv)));
 
-            return new String(result);
+            byte[] decrypted = cipher.doFinal(Base64.decode(encryptedData));
+            return new String(decrypted);
         } catch (Exception e) {
-            System.out.println("[Aes] - 解密失败");
             throw new RuntimeException(e);
         }
     }
@@ -70,15 +62,15 @@ public class Aes {
         initialized = true;
     }
 
-    //生成iv
+    /**生成iv*/
     public static AlgorithmParameters generateIv(byte[] iv) throws Exception {
         AlgorithmParameters algorithmParameters = AlgorithmParameters.getInstance("AES");
         algorithmParameters.init(new IvParameterSpec(iv));
         return algorithmParameters;
     }
 
-    public JSONObject domain(String sessionKey, String encryptedData, String iv){
-        JSONObject jsonObject = JSONObject.parseObject(decrypt(sessionKey, encryptedData, iv));
+    public JSONObject domain(String decryptKey, String encryptedData, String iv){
+        JSONObject jsonObject = JSONObject.parseObject(decrypt(decryptKey, encryptedData, iv));
         return jsonObject;
     }
 

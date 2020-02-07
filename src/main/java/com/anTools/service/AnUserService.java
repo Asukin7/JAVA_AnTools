@@ -2,11 +2,9 @@ package com.anTools.service;
 
 import com.anTools.entity.AnUser;
 
-import java.util.List;
+import java.util.Map;
 
 public interface AnUserService {
-
-    public List<AnUser> listAll();
 
     public AnUser loginUser(String openId);
 
@@ -14,6 +12,8 @@ public interface AnUserService {
 
     public AnUser getTokenForRedis(String token);
 
-    Integer updateUser(AnUser anUser);
+    public AnUser decryptUserInfo(String token, Map<String, Object> map);
+
+    public Integer updateUser(AnUser anUser);
 
 }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.anTools.common.Result;
 import com.anTools.common.ResultStatus;
 import com.anTools.entity.AnUser;
-import com.anTools.entity.AnUserLogin;
 import com.anTools.service.AnUserService;
 import com.anTools.util.HttpUtil;
 import com.anTools.util.TokenUtil;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,15 +21,6 @@ public class AnUserController {
 
     @Autowired
     private AnUserService anUserService;
-
-    @ResponseBody
-    @RequestMapping(value = "/listAll", method = RequestMethod.POST)
-    public Result listAll() {
-        Map<String, Object> resultData = new HashMap<String, Object>();
-        List<AnUser> userList = anUserService.listAll();
-        resultData.put("userList", userList);
-        return new Result(ResultStatus.SUCCESS, resultData);
-    }
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -44,7 +33,7 @@ public class AnUserController {
 
         if (session != null && openid != null) {
             AnUser anUser = anUserService.loginUser(openid);//查询数据库是否存在用户openId，不存在则写入
-            String token = TokenUtil.creatToken(anUser.getId(), anUser.getOpenId(),"user");//创建token
+            String token = TokenUtil.creatToken(session, "user");//创建token
             anUserService.setTokenToRedis(token, anUser);//将token写入Redis，设置过期时间为30分钟
 
             Map<String, Object> resultData = new HashMap<String, Object>();
@@ -53,15 +42,25 @@ public class AnUserController {
         } else {
             result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失败
         }
-
         return result;
     }
 
     @ResponseBody
     @RequiresRoles("user")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
-    public Result getUserInfo(@RequestHeader("Authorization") String token, @RequestBody AnUserLogin anUserLogin) {
+    public Result getUserInfo(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> map) {
         Result result = new Result();
+
+        AnUser anUser = anUserService.decryptUserInfo(token, map);
+        if (anUserService.updateUser(anUser) != 0) {
+            Map<String, Object> resultData = new HashMap<String, Object>();
+            resultData.put("nickName", anUser.getNickName());
+            resultData.put("gender", anUser.getGender());
+            resultData.put("avatarUrl", anUser.getAvatarUrl());
+            result.setData(resultData);
+        } else {
+            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为数据更新失败
+        }
 
         return result;
     }

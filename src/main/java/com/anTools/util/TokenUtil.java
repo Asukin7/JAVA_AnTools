@@ -16,7 +16,7 @@ public class TokenUtil {
     //私钥设置------随便乱写的
     private static final String TOKEN_SECRET = "ASuKiN7AwIys0ZanZxc";
 
-    public static String creatToken(Integer id, String openid, String role) {
+    public static String creatToken(String session, String role) {
         //头部信息
         Map<String, Object> header = new HashMap<String, Object>(2);
         header.put("typ","JWT");
@@ -24,8 +24,7 @@ public class TokenUtil {
 
         return JWT.create()
                 .withHeader(header)
-                .withClaim("id", id)
-                .withClaim("openId", openid)
+                .withClaim("session", session)
                 .withClaim("role", role)
                 .withClaim("lastLoginDate", new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRE_TIME))
