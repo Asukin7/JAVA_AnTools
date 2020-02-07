@@ -32,10 +32,8 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //这里PrincipalCollection对象存放的是SimpleAuthenticationInfo(jwtToken, role, getName())里的验证信息
-        System.out.println("[ShiroRealm] - Realm处理授权");
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        System.out.println("[ShiroRealm] - realm获取的token解密后: " + TokenUtil.getTokenData((String) principals.getPrimaryPrincipal()));
-        simpleAuthorizationInfo.addRole(TokenUtil.getTokenData((String) principals.getPrimaryPrincipal()).getRole());
+        simpleAuthorizationInfo.addRole(TokenUtil.getTokenData((String) principals.getPrimaryPrincipal(), "role").asString());
         return simpleAuthorizationInfo;
     }
 
@@ -47,7 +45,7 @@ public class ShiroRealm extends AuthorizingRealm {
         String jwtToken = (String) token.getCredentials();
         System.out.println("[ShiroRealm] - 开始token验证 token: " + jwtToken);
         try {
-            String role = TokenUtil.getTokenData(jwtToken).getRole();
+            String role = TokenUtil.getTokenData(jwtToken, "role").asString();
             if (role != null) {
                 System.out.println("[ShiroRealm] - 用户有效 role: " + role);
             } else {

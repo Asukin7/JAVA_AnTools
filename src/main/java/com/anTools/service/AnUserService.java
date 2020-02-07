@@ -8,7 +8,11 @@ public interface AnUserService {
 
     public List<AnUser> listAll();
 
-    Integer insertUser(AnUser anUser);
+    public AnUser loginUser(String openId);
+
+    public void setTokenToRedis(String token, AnUser anUser);
+
+    public AnUser getTokenForRedis(String token);
 
     Integer updateUser(AnUser anUser);
 
