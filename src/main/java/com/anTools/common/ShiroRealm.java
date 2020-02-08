@@ -33,31 +33,23 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         //这里PrincipalCollection对象存放的是SimpleAuthenticationInfo(jwtToken, role, getName())里的验证信息
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.addRole(TokenUtil.getTokenData((String) principals.getPrimaryPrincipal(), "role").asString());
+        simpleAuthorizationInfo.addRole(TokenUtil.getTokenData((String) principals.getPrimaryPrincipal(), "role").asString());//数据库添加角色、权限表后，此处应修改为数据库获取
         return simpleAuthorizationInfo;
     }
 
     /**
-     * 校验 验证token逻辑
+     * 校验token
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
         String jwtToken = (String) token.getCredentials();
-        System.out.println("[ShiroRealm] - 开始token验证 token: " + jwtToken);
         try {
-            String role = TokenUtil.getTokenData(jwtToken, "role").asString();
-            if (role != null) {
-                System.out.println("[ShiroRealm] - 用户有效 role: " + role);
-            } else {
-                //token解密失败时，返回filter
-                throw new AuthenticationException("token is invalid, please check your token");
-            }
+            //校验token
+            if (TokenUtil.verifyToken(jwtToken) == false) throw new AuthenticationException();
         } catch (JWTDecodeException e) {
-            //token解密失败时，返回filter
-            throw new AuthenticationException("token is invalid, please check your token");
+            //校验token失败时，返回filter
+            throw new AuthenticationException();
         }
-
-        //坑在这里（否则验证不通过！）
         setCredentialsMatcher(credentialsMatcher());
         return new SimpleAuthenticationInfo(jwtToken, jwtToken, getName());
     }

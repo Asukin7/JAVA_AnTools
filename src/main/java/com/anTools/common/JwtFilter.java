@@ -43,7 +43,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        System.out.println("[JwtFilter] - 允许登录");
+        System.out.println("[JwtFilter] - On Login");
         //获取头部携带的token信息
         JwtToken token = new JwtToken(getAuthzHeader(request));
         if(token.getToken() != null){
@@ -53,7 +53,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
             getSubject(request, response).login(token);
         } catch(AuthenticationException e) {
             //返回的是false
-            System.out.println("[JwtFilter] - Token验证失败");
+            System.out.println("[JwtFilter] - Token validation failed");
             return false;
         }
             return true;
@@ -65,7 +65,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        System.out.println("[JwtFilter] - 拒绝登录");
+        System.out.println("[JwtFilter] - No Login");
         //拒绝时跳转的页面
         redirectToLogin(request, response);
         return false;

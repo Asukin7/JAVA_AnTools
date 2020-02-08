@@ -28,13 +28,13 @@ public class AnUserController {
         Result result = new Result();
 
         JSONObject code2Session = HttpUtil.code2Session(code);
-        String session = code2Session.getString("session_key");
         String openid = code2Session.getString("openid");
+        String session = code2Session.getString("session_key");
 
-        if (session != null && openid != null) {
+        if (openid != null && session!= null) {
             AnUser anUser = anUserService.loginUser(openid);//查询数据库是否存在用户openId，不存在则写入
             String token = TokenUtil.creatToken(session, "user");//创建token
-            anUserService.setTokenToRedis(token, anUser);//将token写入Redis，设置过期时间为30分钟
+            anUserService.setTokenToRedis(token, anUser);//将token写入Redis
 
             Map<String, Object> resultData = new HashMap<String, Object>();
             resultData.put("token", token);
