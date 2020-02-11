@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class AnUserController {
+public class AnUserController extends ExceptionController {
 
     @Autowired
     private AnUserService anUserService;

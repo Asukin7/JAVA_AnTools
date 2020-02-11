@@ -27,7 +27,7 @@ public class ShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * 授权方法，要在控制器层调用才会执行，验证方法在下面
+     * 验证授权信息
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -38,7 +38,7 @@ public class ShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * 校验token
+     * 验证登录信息
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
