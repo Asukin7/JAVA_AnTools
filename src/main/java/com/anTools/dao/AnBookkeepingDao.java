@@ -13,4 +13,8 @@ public interface AnBookkeepingDao {
     @SelectProvider(type=AnBookkeepingSqlProvider.class, method="listAll")
     public List<AnBookkeeping> listAll(Map<String, Object> map);
 
+    /**带参数查找账单表总收支*/
+    @SelectProvider(type=AnBookkeepingSqlProvider.class, method="sumMoney")
+    public Float sumMoney(Map<String, Object> map);
+
 }

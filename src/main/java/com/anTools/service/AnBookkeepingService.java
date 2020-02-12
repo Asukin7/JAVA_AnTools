@@ -9,4 +9,6 @@ public interface AnBookkeepingService {
 
     public List<AnBookkeeping> listAll(Map<String, Object> map);
 
+    public Float sumMoney(Map<String, Object> map);
+
 }

@@ -17,7 +17,6 @@ public class AnBookkeeping implements Serializable {
     private Date bkDate;
     private Float bkMoney;
     private String bkRemark;
-    private String bkDateDay;
 
     public Integer getId() {
         return id;
@@ -75,14 +74,6 @@ public class AnBookkeeping implements Serializable {
         this.bkRemark = bkRemark;
     }
 
-    public String getBkDateDay() {
-        return bkDateDay;
-    }
-
-    public void setBkDateDay(String bkDateDay) {
-        this.bkDateDay = bkDateDay;
-    }
-
     @Override
     public String toString() {
         return "AnBookkeeping{" +
@@ -93,7 +84,6 @@ public class AnBookkeeping implements Serializable {
                 ", bkDate=" + bkDate +
                 ", bkMoney=" + bkMoney +
                 ", bkRemark='" + bkRemark + '\'' +
-                ", bkDateDay='" + bkDateDay + '\'' +
                 '}';
     }
 

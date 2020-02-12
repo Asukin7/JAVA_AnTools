@@ -5,6 +5,7 @@ import com.anTools.common.ResultStatus;
 import com.anTools.entity.AnBookkeeping;
 import com.anTools.service.AnBookkeepingService;
 import com.anTools.service.AnUserService;
+import com.anTools.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +35,18 @@ public class AnBookkeepingController extends ExceptionController {
         }
         map.put("userId", userId);
 
+        if (map.get("bkRemark") != null) map.put("bkRemark", StringUtil.formatLike(map.get("bkRemark").toString()));
+        if (map.get("bkDateStr") != null) map.put("bkDateStr", StringUtil.formatLike(map.get("bkDateStr").toString()));
         List<AnBookkeeping> anBookkeepingListAll = anBookkeepingService.listAll(map);
+        map.put("incomeOrExpend", "income");
+        Float sumIncomeMoney = anBookkeepingService.sumMoney(map);
+        map.put("incomeOrExpend", "expend");
+        Float sumExpendMoney = anBookkeepingService.sumMoney(map);
 
         Map<String, Object> resultData = new HashMap<String, Object>();
         resultData.put("bookkeepingListAll", anBookkeepingListAll);
+        resultData.put("sumIncomeMoney", sumIncomeMoney);
+        resultData.put("sumExpendMoney", sumExpendMoney);
         result.setData(resultData);
         return result;
     }

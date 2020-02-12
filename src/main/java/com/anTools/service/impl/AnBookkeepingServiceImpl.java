@@ -20,4 +20,9 @@ public class AnBookkeepingServiceImpl implements AnBookkeepingService {
         return bookkeepingDao.listAll(map);
     }
 
+    @Override
+    public Float sumMoney(Map<String, Object> map) {
+        return bookkeepingDao.sumMoney(map);
+    }
+
 }
