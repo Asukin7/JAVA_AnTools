@@ -11,4 +11,8 @@ public interface AnBookkeepingService {
 
     public Float sumMoney(Map<String, Object> map);
 
+    public Integer save(AnBookkeeping anBookkeeping);
+
+    public Integer delete(AnBookkeeping anBookkeeping);
+
 }

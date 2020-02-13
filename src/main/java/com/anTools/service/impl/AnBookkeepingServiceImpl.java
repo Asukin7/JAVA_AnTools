@@ -13,16 +13,32 @@ import java.util.Map;
 public class AnBookkeepingServiceImpl implements AnBookkeepingService {
 
     @Autowired
-    private AnBookkeepingDao bookkeepingDao;
+    private AnBookkeepingDao anBookkeepingDao;
 
     @Override
     public List<AnBookkeeping> listAll(Map<String, Object> map) {
-        return bookkeepingDao.listAll(map);
+        return anBookkeepingDao.listAll(map);
     }
 
     @Override
     public Float sumMoney(Map<String, Object> map) {
-        return bookkeepingDao.sumMoney(map);
+        return anBookkeepingDao.sumMoney(map);
+    }
+
+    @Override
+    public Integer save(AnBookkeeping anBookkeeping) {
+        Integer result = 0;
+        if (anBookkeeping.getId() == null) {
+            result = anBookkeepingDao.insert(anBookkeeping);
+        } else {
+            result = anBookkeepingDao.update(anBookkeeping);
+        }
+        return result;
+    }
+
+    @Override
+    public Integer delete(AnBookkeeping anBookkeeping) {
+        return anBookkeepingDao.delete(anBookkeeping);
     }
 
 }
