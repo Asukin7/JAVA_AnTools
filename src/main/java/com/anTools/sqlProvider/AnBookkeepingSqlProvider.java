@@ -91,4 +91,42 @@ public class AnBookkeepingSqlProvider {
         return queryStr;
     }
 
+    public String totalNumber(Map<String, Object> map) {
+        String queryStr = new SQL() {
+            {
+                SELECT("COUNT(*)");
+                FROM("t_bookkeeping");
+//                if (map.get("id") != null) WHERE("id = #{id}");
+                if (map.get("userId") != null) WHERE("userId = #{userId}");
+                if (map.get("incomeOrExpend") != null) WHERE("incomeOrExpend = #{incomeOrExpend}");
+                if (map.get("bkType") != null) WHERE("bkType = #{bkType}");
+                if (map.get("bkDateStr") != null) WHERE("bkDate like #{bkDateStr}");
+                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
+                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String totalDays(Map<String, Object> map) {
+        String queryStr = new SQL() {
+            {
+                SELECT("1 AS n");
+                FROM("t_bookkeeping");
+//                if (map.get("id") != null) WHERE("id = #{id}");
+                if (map.get("userId") != null) WHERE("userId = #{userId}");
+                if (map.get("incomeOrExpend") != null) WHERE("incomeOrExpend = #{incomeOrExpend}");
+                if (map.get("bkType") != null) WHERE("bkType = #{bkType}");
+                if (map.get("bkDateStr") != null) WHERE("bkDate like #{bkDateStr}");
+                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
+                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
+                GROUP_BY("DATE(bkDate)");
+            }
+        }.toString();
+        queryStr = "SELECT COUNT(n) FROM (" + queryStr + ") AS t";
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
 }

@@ -32,4 +32,12 @@ public interface AnBookkeepingDao {
     @DeleteProvider(type=AnBookkeepingSqlProvider.class, method="delete")
     public Integer delete(AnBookkeeping anBookkeeping);
 
+    /**查询账单表条数*/
+    @SelectProvider(type=AnBookkeepingSqlProvider.class, method="totalNumber")
+    public Integer totalNumber(Map<String, Object> map);
+
+    /**查询账单表天数*/
+    @SelectProvider(type=AnBookkeepingSqlProvider.class, method="totalDays")
+    public Integer totalDays(Map<String, Object> map);
+
 }

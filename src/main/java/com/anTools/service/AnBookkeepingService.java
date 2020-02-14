@@ -15,4 +15,6 @@ public interface AnBookkeepingService {
 
     public Integer delete(AnBookkeeping anBookkeeping);
 
+    public Map<String, Object> allTotalNumberAndDays(Map<String, Object> map);
+
 }

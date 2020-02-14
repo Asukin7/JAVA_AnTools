@@ -95,4 +95,25 @@ public class AnBookkeepingController extends ExceptionController {
         return result;
     }
 
+    @ResponseBody
+    @RequiresRoles("user")
+    @RequestMapping(value = "/allTotalNumberAndDays", method = RequestMethod.POST)
+    public Result allTotalNumberAndDays(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> map) {
+        Result result = new Result();
+
+        Integer userId = anUserService.getTokenForRedis(token).getId();
+        if (userId == null) {
+            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            return result;
+        }
+        map.put("userId", userId);
+
+        if (map.get("bkRemark") != null) map.put("bkRemark", StringUtil.formatLike(map.get("bkRemark").toString()));
+        if (map.get("bkDateStr") != null) map.put("bkDateStr", StringUtil.formatLike(map.get("bkDateStr").toString()));
+
+        Map<String, Object> resultData = anBookkeepingService.allTotalNumberAndDays(map);
+        result.setData(resultData);
+        return result;
+    }
+
 }

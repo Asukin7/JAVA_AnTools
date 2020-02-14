@@ -6,6 +6,7 @@ import com.anTools.service.AnBookkeepingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,14 @@ public class AnBookkeepingServiceImpl implements AnBookkeepingService {
     @Override
     public Integer delete(AnBookkeeping anBookkeeping) {
         return anBookkeepingDao.delete(anBookkeeping);
+    }
+
+    @Override
+    public Map<String, Object> allTotalNumberAndDays(Map<String, Object> map) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("totalNumber", anBookkeepingDao.totalNumber(map));
+        result.put("totalDays", anBookkeepingDao.totalDays(map));
+        return result;
     }
 
 }
