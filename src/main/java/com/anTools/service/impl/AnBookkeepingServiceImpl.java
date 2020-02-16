@@ -2,6 +2,7 @@ package com.anTools.service.impl;
 
 import com.anTools.dao.AnBookkeepingDao;
 import com.anTools.entity.AnBookkeeping;
+import com.anTools.entity.AnNameValue;
 import com.anTools.service.AnBookkeepingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,21 @@ public class AnBookkeepingServiceImpl implements AnBookkeepingService {
         result.put("totalNumber", anBookkeepingDao.totalNumber(map));
         result.put("totalDays", anBookkeepingDao.totalDays(map));
         return result;
+    }
+
+    @Override
+    public List<AnNameValue> listMonthsSumMoney(Map<String, Object> map) {
+        return anBookkeepingDao.listMonthsSumMoney(map);
+    }
+
+    @Override
+    public List<AnNameValue> listDaysSumMoney(Map<String, Object> map) {
+        return anBookkeepingDao.listDaysSumMoney(map);
+    }
+
+    @Override
+    public List<AnNameValue> listTypeSumMoney(Map<String, Object> map) {
+        return anBookkeepingDao.listTypeSumMoney(map);
     }
 
 }

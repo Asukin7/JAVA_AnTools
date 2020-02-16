@@ -1,6 +1,7 @@
 package com.anTools.dao;
 
 import com.anTools.entity.AnBookkeeping;
+import com.anTools.entity.AnNameValue;
 import com.anTools.sqlProvider.AnBookkeepingSqlProvider;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -39,5 +40,17 @@ public interface AnBookkeepingDao {
     /**查询账单表天数*/
     @SelectProvider(type=AnBookkeepingSqlProvider.class, method="totalDays")
     public Integer totalDays(Map<String, Object> map);
+
+    /**查询某年每月收支总额*/
+    @SelectProvider(type=AnBookkeepingSqlProvider.class, method="listMonthsSumMoney")
+    public List<AnNameValue> listMonthsSumMoney(Map<String, Object> map);
+
+    /**查询某月每日收支总额*/
+    @SelectProvider(type=AnBookkeepingSqlProvider.class, method="listDaysSumMoney")
+    public List<AnNameValue> listDaysSumMoney(Map<String, Object> map);
+
+    /**查询各类型收支总额*/
+    @SelectProvider(type=AnBookkeepingSqlProvider.class, method="listTypeSumMoney")
+    public List<AnNameValue> listTypeSumMoney(Map<String, Object> map);
 
 }

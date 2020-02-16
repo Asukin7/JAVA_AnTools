@@ -3,6 +3,7 @@ package com.anTools.controller;
 import com.anTools.common.Result;
 import com.anTools.common.ResultStatus;
 import com.anTools.entity.AnBookkeeping;
+import com.anTools.entity.AnNameValue;
 import com.anTools.service.AnBookkeepingService;
 import com.anTools.service.AnUserService;
 import com.anTools.util.StringUtil;
@@ -112,6 +113,87 @@ public class AnBookkeepingController extends ExceptionController {
         if (map.get("bkDateStr") != null) map.put("bkDateStr", StringUtil.formatLike(map.get("bkDateStr").toString()));
 
         Map<String, Object> resultData = anBookkeepingService.allTotalNumberAndDays(map);
+        result.setData(resultData);
+        return result;
+    }
+
+    @ResponseBody
+    @RequiresRoles("user")
+    @RequestMapping(value = "/listMonthsSumMoney", method = RequestMethod.POST)
+    public Result listMonthsSumMoney(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> map) {
+        Result result = new Result();
+
+        Integer userId = anUserService.getTokenForRedis(token).getId();
+        if (userId == null) {
+            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            return result;
+        }
+        map.put("userId", userId);
+
+        if (map.get("bkDateStr") != null) map.put("bkDateStr", StringUtil.formatLike(map.get("bkDateStr").toString()));
+
+        map.put("incomeOrExpend", "income");
+        List<AnNameValue> incomeMonthsList = anBookkeepingService.listMonthsSumMoney(map);
+        map.put("incomeOrExpend", "expend");
+        List<AnNameValue> expendMonthsList = anBookkeepingService.listMonthsSumMoney(map);
+
+        Map<String, Object> resultData = new HashMap<String, Object>();
+        resultData.put("incomeMonthsList", incomeMonthsList);
+        resultData.put("expendMonthsList", expendMonthsList);
+        result.setData(resultData);
+        return result;
+    }
+
+    @ResponseBody
+    @RequiresRoles("user")
+    @RequestMapping(value = "/listDaysSumMoney", method = RequestMethod.POST)
+    public Result listDaysSumMoney(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> map) {
+        Result result = new Result();
+
+        Integer userId = anUserService.getTokenForRedis(token).getId();
+        if (userId == null) {
+            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            return result;
+        }
+        map.put("userId", userId);
+
+        if (map.get("bkDateStr") != null) map.put("bkDateStr", StringUtil.formatLike(map.get("bkDateStr").toString()));
+
+        map.put("incomeOrExpend", "income");
+        List<AnNameValue> incomeDaysList = anBookkeepingService.listDaysSumMoney(map);
+        map.put("incomeOrExpend", "expend");
+        List<AnNameValue> expendDaysList = anBookkeepingService.listDaysSumMoney(map);
+
+        Map<String, Object> resultData = new HashMap<String, Object>();
+        resultData.put("incomeDaysList", incomeDaysList);
+        resultData.put("expendDaysList", expendDaysList);
+        result.setData(resultData);
+        return result;
+    }
+
+    @ResponseBody
+    @RequiresRoles("user")
+    @RequestMapping(value = "/listTypeSumMoney", method = RequestMethod.POST)
+    public Result listTypeSumMoney(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> map) {
+        Result result = new Result();
+
+        Integer userId = anUserService.getTokenForRedis(token).getId();
+        if (userId == null) {
+            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            return result;
+        }
+        map.put("userId", userId);
+
+        if (map.get("bkDateStr") != null) map.put("bkDateStr", StringUtil.formatLike(map.get("bkDateStr").toString()));
+
+        map.put("incomeOrExpend", "income");
+        List<AnNameValue> incomeTypeList = anBookkeepingService.listTypeSumMoney(map);
+        map.put("incomeOrExpend", "expend");
+        List<AnNameValue> expendTypeList = anBookkeepingService.listTypeSumMoney(map);
+
+        Map<String, Object> resultData = new HashMap<String, Object>();
+        resultData.put("incomeTypeList", incomeTypeList);
+        resultData.put("expendTypeList", expendTypeList);
         result.setData(resultData);
         return result;
     }

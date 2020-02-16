@@ -129,4 +129,62 @@ public class AnBookkeepingSqlProvider {
         return queryStr;
     }
 
+    public String listMonthsSumMoney(Map<String, Object> map) {
+        String queryStr = new SQL() {
+            {
+                SELECT("MONTH(bkDate) AS name, SUM(bkMoney) AS value");
+                FROM("t_bookkeeping");
+//                if (map.get("id") != null) WHERE("id = #{id}");
+                if (map.get("userId") != null) WHERE("userId = #{userId}");
+                if (map.get("incomeOrExpend") != null) WHERE("incomeOrExpend = #{incomeOrExpend}");
+//                if (map.get("bkType") != null) WHERE("bkType = #{bkType}");
+                if (map.get("bkDateStr") != null) WHERE("bkDate like #{bkDateStr}");
+//                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
+//                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
+                GROUP_BY("MONTH(bkDate)");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String listDaysSumMoney(Map<String, Object> map) {
+        String queryStr = new SQL() {
+            {
+                SELECT("DAY(bkDate) AS name, SUM(bkMoney) AS value");
+                FROM("t_bookkeeping");
+//                if (map.get("id") != null) WHERE("id = #{id}");
+                if (map.get("userId") != null) WHERE("userId = #{userId}");
+                if (map.get("incomeOrExpend") != null) WHERE("incomeOrExpend = #{incomeOrExpend}");
+//                if (map.get("bkType") != null) WHERE("bkType = #{bkType}");
+                if (map.get("bkDateStr") != null) WHERE("bkDate like #{bkDateStr}");
+//                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
+//                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
+                GROUP_BY("DAY(bkDate)");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
+    public String listTypeSumMoney(Map<String, Object> map) {
+        String queryStr = new SQL() {
+            {
+                SELECT("bkType AS name, SUM(bkMoney) AS value");
+                FROM("t_bookkeeping");
+//                if (map.get("id") != null) WHERE("id = #{id}");
+                if (map.get("userId") != null) WHERE("userId = #{userId}");
+                if (map.get("incomeOrExpend") != null) WHERE("incomeOrExpend = #{incomeOrExpend}");
+//                if (map.get("bkType") != null) WHERE("bkType = #{bkType}");
+                if (map.get("bkDateStr") != null) WHERE("bkDate like #{bkDateStr}");
+//                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
+//                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
+                GROUP_BY("bkType");
+                ORDER_BY("SUM(bkMoney) DESC");
+            }
+        }.toString();
+        System.out.println(queryStr);
+        return queryStr;
+    }
+
 }
