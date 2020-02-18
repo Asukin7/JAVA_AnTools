@@ -142,6 +142,7 @@ public class AnBookkeepingSqlProvider {
 //                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
 //                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
                 GROUP_BY("MONTH(bkDate)");
+                ORDER_BY("MONTH(bkDate)");
             }
         }.toString();
         System.out.println(queryStr);
@@ -161,6 +162,7 @@ public class AnBookkeepingSqlProvider {
 //                if (map.get("bkMoney") != null) WHERE("bkMoney = #{bkMoney}");
 //                if (map.get("bkRemark") != null) WHERE("bkRemark like #{bkRemark}");
                 GROUP_BY("DAY(bkDate)");
+                ORDER_BY("DAY(bkDate)");
             }
         }.toString();
         System.out.println(queryStr);

@@ -16,7 +16,7 @@
     <!--配置数据库连接-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/db_anTools?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/db_antools?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
         <property name="username" value="test"/>
         <property name="password" value="123456"/>
     </bean>

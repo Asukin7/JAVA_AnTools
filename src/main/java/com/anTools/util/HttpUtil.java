@@ -27,7 +27,7 @@ public class HttpUtil {
                 String result = EntityUtils.toString(entity, "UTF-8");
                 return result;
             } else {//请求失败 other
-                System.out.println("[HttpUtil] - 请求失败statusCode: "+statusCode);
+                System.out.println("[HttpUtil] - 请求失败statusCode: " + statusCode);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

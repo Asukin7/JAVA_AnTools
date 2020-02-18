@@ -20,7 +20,7 @@ public class ExceptionController {
     @ResponseBody
     @RequestMapping(value = "/noToken", method = RequestMethod.GET)
     public Result noToken() {
-        return new Result(ResultStatus.UNKNOWN_ERROR);//应修改为token无效
+        return new Result(ResultStatus.NO_TOKEN);
     }
 
     //无权时的异常处理
@@ -28,7 +28,7 @@ public class ExceptionController {
     @ExceptionHandler({UnauthorizedException.class})
     @RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
     public Result unauthorized(){
-        return new Result(ResultStatus.UNKNOWN_ERROR);//应修改为无权
+        return new Result(ResultStatus.UNAUTHORIZED);
     }
 
 }

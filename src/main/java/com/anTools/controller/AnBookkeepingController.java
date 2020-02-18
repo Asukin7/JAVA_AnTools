@@ -33,7 +33,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         map.put("userId", userId);
@@ -62,7 +62,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         anBookkeeping.setUserId(userId);
@@ -83,7 +83,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         anBookkeeping.setUserId(userId);
@@ -104,7 +104,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         map.put("userId", userId);
@@ -125,7 +125,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         map.put("userId", userId);
@@ -152,7 +152,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         map.put("userId", userId);
@@ -179,7 +179,7 @@ public class AnBookkeepingController extends ExceptionController {
 
         Integer userId = anUserService.getTokenForRedis(token).getId();
         if (userId == null) {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失效
+            result.setResultStatus(ResultStatus.LOGIN_EXPIRE);
             return result;
         }
         map.put("userId", userId);

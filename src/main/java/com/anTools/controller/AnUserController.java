@@ -33,6 +33,10 @@ public class AnUserController extends ExceptionController {
 
         if (openid != null && session!= null) {
             AnUser anUser = anUserService.loginUser(openid);//查询数据库是否存在用户openId，不存在则写入
+            if (anUser == null) {
+                result.setResultStatus(ResultStatus.USER_INSERT_FAIL);
+                return result;
+            }
             String token = TokenUtil.creatToken(session, "user");//创建token
             anUserService.setTokenToRedis(token, anUser);//将token写入Redis
 
@@ -40,7 +44,8 @@ public class AnUserController extends ExceptionController {
             resultData.put("token", token);
             result.setData(resultData);
         } else {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为登录失败
+            result.setResultStatus(ResultStatus.LOGIN_FAIL);
+            return result;
         }
         return result;
     }
@@ -59,7 +64,8 @@ public class AnUserController extends ExceptionController {
             resultData.put("avatarUrl", anUser.getAvatarUrl());
             result.setData(resultData);
         } else {
-            result.setResultStatus(ResultStatus.UNKNOWN_ERROR);//应修改为数据更新失败
+            result.setResultStatus(ResultStatus.USER_UPDATE_FAIL);
+            return result;
         }
 
         return result;
