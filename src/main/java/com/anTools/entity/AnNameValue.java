@@ -7,7 +7,7 @@ public class AnNameValue implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
-    private Integer value;
+    private Float value;
 
     public String getName() {
         return name;
@@ -17,11 +17,11 @@ public class AnNameValue implements Serializable {
         this.name = name;
     }
 
-    public Integer getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 
